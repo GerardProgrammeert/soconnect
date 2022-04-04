@@ -31,16 +31,6 @@ class EspressoWaterContainer implements WaterContainerInterface
     }
 
     /**
-     *
-     *
-     * @return float
-     */
-    public function maxAdd(): float
-    {
-        return $this->getCapacity() - $this->getWater();
-    }
-
-    /**
      * Method to add water to the container
      * @param float $litres
      * @throws ContainerFullException
