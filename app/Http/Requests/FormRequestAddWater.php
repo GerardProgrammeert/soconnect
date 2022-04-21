@@ -24,7 +24,7 @@ class FormRequestAddWater extends FormRequest
     public function rules()
     {
         return [
-            'water' => 'numeric|required'
+            'water' => 'min:0|numeric|required'
         ];
     }
 }
