@@ -1,4 +1,5 @@
 #!/bin/bash
+/bin/sh\r
 sleep 60
 echo "Entrypoint"
 echo "Run Composer install"
