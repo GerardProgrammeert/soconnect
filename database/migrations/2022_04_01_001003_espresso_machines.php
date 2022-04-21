@@ -16,9 +16,9 @@ return new class extends Migration
         Schema::create('espresso_machines', function (Blueprint $table) {
             $table->id();
             $table->double('water_container_level',15,4)->default(2);
-            $table->double('water_container_capacity',15,4)->default(0);
+            $table->double('water_container_capacity',15,4)->default(2);
             $table->integer('beans_container_capacity')->default(50);
-            $table->integer('beans_container_level')->default(0);
+            $table->integer('beans_container_level')->default(50);
             $table->timestamps();
         });
     }
