@@ -13,6 +13,7 @@ sed -i "s/DB_PASSWORD=.*/DB_PASSWORD=$MYSQL_ROOT_PASSWORD/" .env
 
 php artisan key:generate
 php artisan migrate
+php -S php:8000 -t public
 
 
 while true; do sleep 1; done

@@ -16,7 +16,8 @@ COPY . /var/www/html/
 
 WORKDIR /var/www/html/
 
-RUN composer update
+RUN composer install
+RUN composer dump-autoload
 
 #Install nano
 RUN apt-get install nano
