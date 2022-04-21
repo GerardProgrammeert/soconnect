@@ -3,7 +3,11 @@
 2. Setup a database and config .env to connect to db
 3. Run migration
 4. Serve laravel(php artisan serve)
+<<<<<<< Updated upstream
 5. Create new coffee machine's via /api/espresso-machine/config. You don't have to post any data, since all var has a default, but you can push variables
+=======
+5. Create new coffee machine's via /api/espresso-machine/config
+>>>>>>> Stashed changes
 6. Get your espresso's via /api/espresso-machine/{id}/one or /api/espresso-machine/{id}/double 
 
 ## Assumptions

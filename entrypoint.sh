@@ -1,6 +1,8 @@
 #!/bin/bash
+echo "asdsdsds"
+composer install
+composer dump-autoload
 sleep 30
-
 cp .env.example .env
 DB_DATABASE="sc"
 DB_USERNAME="root"
@@ -13,7 +15,4 @@ sed -i "s/DB_PASSWORD=.*/DB_PASSWORD=$MYSQL_ROOT_PASSWORD/" .env
 
 php artisan key:generate
 php artisan migrate
-php -S php:8000 -t public
-
-
 while true; do sleep 1; done
