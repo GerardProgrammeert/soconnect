@@ -29,6 +29,11 @@ services:
           - 8000:8000
       links:
           - db
+      environment:
+          - MYSQL_ROOT_PASSWORD=example
+          - MYSQL_DATABASE=sc
+          - MYSQL_USER=sc
+          - MYSQL_PASSWORD=sc
       volumes:
           - .:/var/www/html
       entrypoint: ./entrypoint.sh

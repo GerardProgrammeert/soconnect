@@ -18,10 +18,9 @@ WORKDIR /var/www/html/
 
 RUN composer update
 
-# Install Git
-RUN apt-get install -y git
 #Install nano
 RUN apt-get install nano
 
 RUN php artisan optimize
+
 
