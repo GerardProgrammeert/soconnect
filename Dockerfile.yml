@@ -16,10 +16,7 @@ WORKDIR /var/www/html/
 
 COPY . .
 
-RUN composer install
-
-
-  #Install nano
+#Install nano
 RUN apt-get install nano
 
 RUN php artisan optimize
