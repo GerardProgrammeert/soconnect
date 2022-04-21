@@ -16,7 +16,8 @@ WORKDIR /var/www/html/
 
 COPY . .
 
-RUN chmod +x entrypoint.sh
+RUN chmod +x ./entrypoint.sh
+ENTRYPOINT ["./entrypoint.sh"]
 
 #Install nano
 RUN apt-get install nano
