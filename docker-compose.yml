@@ -37,6 +37,6 @@ services:
             - MYSQL_HOST=db
         volumes:
             - .:/var/www/html
-        entrypoint: ./entrypoint.sh
+        #entrypoint: ./entrypoint.sh
 volumes:
     mysql-data:
