@@ -1,0 +1,27 @@
+FROM php:8.1-apache
+
+# Install mysql
+RUN docker-php-ext-install mysqli pdo pdo_mysql && docker-php-ext-enable pdo_mysql
+
+RUN apt-get update && apt-get install -y \
+    zlib1g-dev \
+    libzip-dev
+
+RUN apt-get install zip unzip
+
+# Install Composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+COPY . /var/www/html/
+
+WORKDIR /var/www/html/
+
+RUN composer update
+
+# Install Git
+RUN apt-get install -y git
+#Install nano
+RUN apt-get install nano
+
+RUN php artisan optimize
+
