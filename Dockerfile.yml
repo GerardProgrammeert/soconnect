@@ -19,4 +19,3 @@ COPY . .
 #Install nano
 RUN apt-get install nano
 
-RUN php artisan optimize
