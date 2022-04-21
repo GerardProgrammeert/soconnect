@@ -53,7 +53,7 @@ class Handler extends ExceptionHandler
         // API Handler
         if ($request->wantsJson()) {
             if($e instanceof ModelNotFoundException) {
-                return response()->json(['error' => 'Data not found.']);
+                return response()->json(['error' => 'Requested model doesnot exist.Please create one'],404);
             }
             elseif($e instanceOf \Illuminate\Validation\ValidationException)
             {
@@ -63,6 +63,7 @@ class Handler extends ExceptionHandler
                 \Log::critical($e->getMessage() . ' in line ' . $e->getLine() . 'Stack trace' . $e->getTraceAsString() );
                 return response()->json(['error' => "Something went wrong please contact support"],500);
             }
+
         }
 
         return parent::render($request, $e);
