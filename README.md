@@ -15,7 +15,7 @@ This section describes all endpoints
 ## POST /api/espresso-machine/config
 
 ### description
-creates a new espresso machine
+creates a new espresso machine1
 
 ### parameters
 
