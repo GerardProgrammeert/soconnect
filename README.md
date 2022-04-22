@@ -67,7 +67,7 @@ Get all espresso machines
 
 ## GET /api/espresso-machine/{id}/one
 ### description
-Get a espresso from an espresso machine
+Get an espresso from an espresso machine
 ### parameters
 | Name  | Required | Type |Description |
 | ------------- | ------------- | ------------- |------------- |
@@ -88,7 +88,7 @@ Get status of an espresso machine
 | ------------- | ------------- | ------------- |------------- |
 |id|required|integer|id of espresso machine|
 
-## Assumptions
+# Assumptions
 1. Since it is a Restfull API, I didn't use sessions or cookies to persist the status. Instead I created models to save the data.
 2. Since in the real world espresso machines also has to be fill manually, I added end-point to allow the user to fill the containers. However it is possible to setup listeners and events on the level of the containers to automate the fill.
 
