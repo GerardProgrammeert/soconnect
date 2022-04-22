@@ -14,4 +14,5 @@ sed -i "s/DB_PASSWORD=.*/DB_PASSWORD=$MYSQL_PASSWORD/" .env
 php artisan key:generate
 php artisan optimize
 php artisan migrate
+php artisan db:seed --class=EspressoMachineTableSeeder
 php artisan serve --host=0.0.0.0 --port=8000
