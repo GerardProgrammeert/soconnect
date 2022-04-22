@@ -1,4 +1,4 @@
-#Espresso Machine Assessment
+# Espresso Machine Assessment
 For the company SoConnect I did an assessment for making espresso via an API
 # Install
 1. Download repo
@@ -11,7 +11,7 @@ $ docker-compose up -d
 ```
 
 # API Endpoints
-
+This section describes all endpoints
 ## POST /api/espresso-machine/config
 
 ### description
@@ -32,7 +32,7 @@ If no parameters are provided, defaults will be used.
 ## POST /api/espresso-machine/{id}/config
 
 ### description
-reconfig a existing espresso machine
+reconfig an existing espresso machine
 
 ### parameters
 | Name  | Required | Type |Description |
@@ -67,14 +67,14 @@ Get all espresso machines
 
 ## GET /api/espresso-machine/{id}/one
 ### description
-Get a espresso from a espresso machine
+Get a espresso from an espresso machine
 ### parameters
 | Name  | Required | Type |Description |
 | ------------- | ------------- | ------------- |------------- |
 |id|required|integer|id of espresso machine|
 ## GET /api/espresso-machine/{id}/double
 ### description
-Get a double espresso from a espresso machine
+Get a double espresso from an espresso machine
 ### parameters
 | Name  | Required | Type |Description |
 | ------------- | ------------- | ------------- |------------- |
@@ -82,7 +82,7 @@ Get a double espresso from a espresso machine
 
 ## GET /api/espresso-machine/{id}/status
 ### description
-Get a status of a espresso machine
+Get status of an espresso machine
 ### parameters
 | Name  | Required | Type |Description |
 | ------------- | ------------- | ------------- |------------- |
