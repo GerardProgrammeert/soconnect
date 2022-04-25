@@ -38,10 +38,11 @@ class EspressoBeansContainer implements BeansContainerInterFace
     {
         $level = $this->getBeans();
 
-        if ($this->getCapacity() < $level + $numSpoons) {
-            throw ContainerFullException::tooFull();
-        } elseif ($this->getCapacity() == $level) {
+        if ($this->getCapacity() == $level) {
             throw ContainerFullException::alreadyFilled();
+        }
+        elseif ($this->getCapacity() < $level + $numSpoons) {
+            throw ContainerFullException::tooFull();
         }
 
         //update model
