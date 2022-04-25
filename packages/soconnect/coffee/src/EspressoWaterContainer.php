@@ -38,10 +38,11 @@ class EspressoWaterContainer implements WaterContainerInterface
     public function addWater(float $litres): void
     {
         $level = $this->getWater();
-        if ($this->getCapacity() < $level + $litres) {
-            throw ContainerFullException::tooFull();
-        } elseif ($this->getCapacity() == $level) {
+        if ($this->getCapacity() == $level) {
             throw ContainerFullException::alreadyFilled();
+        }
+        elseif ($this->getCapacity() < $level + $litres) {
+            throw ContainerFullException::tooFull();
         }
 
         //update model
