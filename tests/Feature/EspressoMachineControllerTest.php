@@ -233,7 +233,7 @@ class EspressoMachineControllerTest extends TestCase
                 'error' => 'No Beans. Please fill the machine',
             ])
             ->assertHeader('Content-Type','application/json')
-            ->assertStatus(400);
+            ->assertStatus(200);
     }
 
 //https://www.twilio.com/blog/unit-testing-laravel-api-phpunit
