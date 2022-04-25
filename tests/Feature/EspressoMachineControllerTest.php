@@ -13,7 +13,8 @@ class EspressoMachineControllerTest extends TestCase
     use RefreshDatabase;
 
     /**
-     *
+     * Create an espresso machine with no payload
+     * Created with default from db
      * @return void
      */
     public function testEspressoMachineIsCreatedSuccessfullyWithDefaults()
@@ -25,6 +26,12 @@ class EspressoMachineControllerTest extends TestCase
             ->assertJsonStructure(['id','water_container_level', 'water_container_capacity','beans_container_level','beans_container_capacity'])
             ->assertStatus(200);
     }
+
+    /**
+     * Create an espresso machine with payload
+     * Data is provided for all possible parameters
+     * @return void
+     */
     public function testEspressoMachineIsCreatedSuccessfullyWithPayload()
     {
         $payload = [
@@ -40,6 +47,10 @@ class EspressoMachineControllerTest extends TestCase
             ->assertStatus(200);
     }
 
+    /**
+     * Try to create an espresso machine with level higher then capacity
+     * @return void
+     */
     public function testEspressoMachineCreateWithHigherLevelThenCapacity()
     {
         $payload = [
@@ -55,6 +66,10 @@ class EspressoMachineControllerTest extends TestCase
             ->assertStatus(400);
     }
 
+    /**
+     * Create an espresso machine with no allowed values
+     * @return void
+     */
     public function testEspressoMachineCreateWithInvalidData(){
 
         $payload = [
@@ -70,7 +85,11 @@ class EspressoMachineControllerTest extends TestCase
             ->assertStatus(400);
     }
 
-    public function testEspressoMachineFillWithWaterSuccesfully(){
+    /**
+     * Successfully fill water container an espresso machine
+     * @return void
+     */
+    public function testEspressoMachineFillWithWaterSuccessfully(){
 
         $espressomachine = EspressoMachine::factory()->create();
         $id = $espressomachine->id;
@@ -85,6 +104,10 @@ class EspressoMachineControllerTest extends TestCase
             ->assertStatus(200);
     }
 
+    /**
+     * Fill a water container with more water then water container can handle
+     * @return void
+     */
     public function testFillWaterContainerTooMuch(){
 
         $espressomachine = EspressoMachine::factory()->create();
@@ -100,6 +123,10 @@ class EspressoMachineControllerTest extends TestCase
             ->assertStatus(400);
     }
 
+    /**
+     * Fill a full water container
+     * @return void
+     */
     public function testFillFullWaterContainer(){
 
         $espressomachine = EspressoMachine::factory()->create(['water_container_capacity' => 10 , 'water_container_level' => 10]);
@@ -113,7 +140,12 @@ class EspressoMachineControllerTest extends TestCase
             ->assertHeader('Content-Type','application/json')
             ->assertStatus(400);
     }
-    public function testFillBeansContainerSuccesfully(){
+
+    /**
+     * Successfull fill beans container
+     * @return void
+     */
+    public function testFillBeansContainerSuccessfully(){
 
         $espressomachine = EspressoMachine::factory()->create(['beans_container_capacity' => 10 , 'beans_container_level' => 0]);
         $id = $espressomachine->id;
@@ -127,6 +159,11 @@ class EspressoMachineControllerTest extends TestCase
             ->assertStatus(200);
 
     }
+
+    /**
+     * Fill a full beans container
+     * @return void
+     */
     public function testFillFullBeansContainer(){
 
         $espressomachine = EspressoMachine::factory()->create(['beans_container_capacity' => 10 , 'beans_container_level' => 10]);
@@ -141,6 +178,11 @@ class EspressoMachineControllerTest extends TestCase
             ->assertStatus(400);
     }
 
+    /**
+     * Fill a beans container with too much beans.
+     * This give an error
+     * @return void
+     */
     public function testFillBeansContainerTooMuch(){
 
         $espressomachine = EspressoMachine::factory()->create(['beans_container_capacity' => 10 , 'beans_container_level' => 9]);
@@ -155,6 +197,10 @@ class EspressoMachineControllerTest extends TestCase
             ->assertStatus(400);
     }
 
+    /**
+     * Check overview of espresso machines in case no machines exist
+     * @return void
+     */
     public function testOverviewEspressoMachinesNoExist(){
 
         $this->json('get','/api/espresso-machine/')
@@ -164,6 +210,10 @@ class EspressoMachineControllerTest extends TestCase
 
     }
 
+    /**
+     * Check over of espresso machine in case machines exist
+     * @return void
+     */
     public function testOverviewEspressoMachinesSeveralExist(){
 
         EspressoMachine::factory(5)->create();
@@ -176,7 +226,11 @@ class EspressoMachineControllerTest extends TestCase
             ->assertStatus(200);
     }
 
-    public function testGetStatusEspressoMachineSuccesfully(){
+    /**
+     * Get status of an existing espresso machine
+     * @return void
+     */
+    public function testGetStatusEspressoMachineSuccessfully(){
 
         $espressomachine = EspressoMachine::factory()->create();
         $this->json('get','/api/espresso-machine/' . $espressomachine->id . '/status')
@@ -184,6 +238,10 @@ class EspressoMachineControllerTest extends TestCase
             ->assertStatus(200);
     }
 
+    /**
+     * Get status of a non-existing espresso mochine
+     * @return void
+     */
     public function testGetStatusEspressoMachineModelNotExist(){
 
         $this->json('get','/api/espresso-machine/1/status')
@@ -191,7 +249,11 @@ class EspressoMachineControllerTest extends TestCase
             ->assertStatus(404);
     }
 
-    public function testGetOneEspressoSuccesfully(){
+    /**
+     * Get one espresso from a machine with a filled containers
+     * @return void
+     */
+    public function testGetOneEspressoSuccessfully(){
         $data = [
             'water_container_level'=> 10,
             'water_container_capacity'=> 10,
@@ -204,7 +266,11 @@ class EspressoMachineControllerTest extends TestCase
             ->assertStatus(200);
     }
 
-    public function testGetOneEspressoUnsuccesfullyNoWater(){
+    /**
+     * Get one espresso from a machine with water container empty
+     * @return void
+     */
+    public function testGetOneEspressoUnsuccessfullyNoWater(){
         $data = [
             'water_container_level'=> 0,
             'water_container_capacity'=> 10,
@@ -220,7 +286,11 @@ class EspressoMachineControllerTest extends TestCase
             ->assertStatus(400);
     }
 
-    public function testGetOneEspressoUnsuccesfullyNoBeans(){
+    /**
+     * Get one espresso from a machine with beans container empty
+     * @return void
+     */
+    public function testGetOneEspressoUnsuccessfullyNoBeans(){
         $data = [
             'water_container_level'=> 10,
             'water_container_capacity'=> 10,
@@ -233,11 +303,7 @@ class EspressoMachineControllerTest extends TestCase
                 'error' => 'No Beans. Please fill the machine',
             ])
             ->assertHeader('Content-Type','application/json')
-            ->assertStatus(200);
+            ->assertStatus(400);
     }
 
-//https://www.twilio.com/blog/unit-testing-laravel-api-phpunit
-//https://github.com/auth0-blog/laravel-testing/blob/main/tests/TestCase.php
-//https://auth0.com/blog/testing-laravel-apis-with-phpunit/
-//https://www.youtube.com/watch?v=6jQixGjQIB0
 }
