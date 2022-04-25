@@ -118,6 +118,9 @@ class EspressoMachineControllerTest extends TestCase
 
         $this->json('post',route('espresso-machine.add-water',['modelEspressoMachine' => $id]), $payload)
             ->assertHeader('Content-Type','application/json')
+            ->assertJson([
+                'error' => 'Added too much. Container is too full.',
+            ])
             ->assertStatus(400);
     }
 
@@ -136,6 +139,9 @@ class EspressoMachineControllerTest extends TestCase
 
         $this->json('post',route('espresso-machine.add-water',['modelEspressoMachine' => $id]), $payload)
             ->assertHeader('Content-Type','application/json')
+            ->assertJson([
+                'error' => 'Container is already filled',
+            ])
             ->assertStatus(400);
     }
 
@@ -172,6 +178,9 @@ class EspressoMachineControllerTest extends TestCase
         ];
 
         $this->json('post',route('espresso-machine.add-beans',['modelEspressoMachine' => $id]), $payload)
+            ->assertJson([
+                'error' => 'Container is already filled',
+            ])
             ->assertHeader('Content-Type','application/json')
             ->assertStatus(400);
     }
@@ -191,6 +200,9 @@ class EspressoMachineControllerTest extends TestCase
         ];
 
         $this->json('post',route('espresso-machine.add-beans',['modelEspressoMachine' => $id]), $payload)
+            ->assertJson([
+                'error' => 'Added too much. Container is too full.',
+            ])
             ->assertHeader('Content-Type','application/json')
             ->assertStatus(400);
     }
