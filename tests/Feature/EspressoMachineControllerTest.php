@@ -84,6 +84,90 @@ class EspressoMachineControllerTest extends TestCase
     }
 
     /**
+     * Update an existing espresso machine
+     * @return void
+     */
+    public function testUpdateEspressoMachineSuccessfully(){
+
+        $espressomachine = EspressoMachine::factory()->create();
+
+        $this->assertDatabaseHas('espresso_machines',['id' => $espressomachine->id]);
+
+        $payload = [
+            'water_container_level'=> 20,
+            'water_container_capacity'=> 50,
+            'beans_container_level' =>  10,
+            'beans_container_capacity' => 98,
+        ];
+
+           $this->json('post',route('espresso-machine.reconfig',['modelEspressoMachine'=>$espressomachine->id]), $payload)
+            ->assertHeader('Content-Type','application/json')
+            ->assertStatus(200);
+    }
+
+    /**
+     * Update non-existing espresso machine
+     * @return void
+     */
+    public function testUpdateNonExistingEspressoMachine(){
+
+        $payload = [
+            'water_container_level'=> 50,
+            'water_container_capacity'=> 50,
+            'beans_container_level' =>  89.15,
+            'beans_container_capacity' => 98,
+        ];
+
+        $this->json('post',route('espresso-machine.reconfig',['modelEspressoMachine' => 1]), $payload)
+            ->assertHeader('Content-Type','application/json')
+            ->assertStatus(404);
+    }
+
+    /**
+     * Update espresso machine with invalid data
+     * @return void
+     */
+    public function testUpdateEspressoMachineWithInvalidData(){
+
+        $espressomachine = EspressoMachine::factory()->create();
+
+        $payload = [
+            'water_container_level'=> -50,
+            'water_container_capacity'=> -50,
+            'beans_container_level' =>  -89.15,
+            'beans_container_capacity' => -98,
+        ];
+
+        $this->json('post',route('espresso-machine.reconfig',['modelEspressoMachine'=>$espressomachine->id]), $payload)
+            ->assertJsonValidationErrors(['water_container_level','water_container_capacity','beans_container_level','beans_container_capacity'],'error')
+            ->assertHeader('Content-Type','application/json')
+            ->assertStatus(400);
+    }
+
+    /**
+     * Delete an existing espresso machine successfully
+     * @return void
+     */
+    public function testEspressoMachineDeleteSuccessfully()
+    {
+        $espressomachine = EspressoMachine::factory()->create();
+
+        $this->json('delete',route('espresso-machine.delete',['modelEspressoMachine' => $espressomachine->id]))
+            ->assertStatus(204);
+    }
+
+    /**
+     * Delete a non-existing espresso machine
+     * @return void
+     */
+    public function testEspressoMachineDelete()
+    {
+        $this->json('delete',route('espresso-machine.delete',['modelEspressoMachine' => 1]))
+            ->assertHeader('Content-Type','application/json')
+            ->assertStatus(404);
+    }
+
+    /**
      * Successfully fill water container an espresso machine
      * @return void
      */
@@ -262,7 +346,7 @@ class EspressoMachineControllerTest extends TestCase
     }
 
     /**
-     * Get one espresso from a machine with a filled containers
+     * Get one espresso from a machine with filled containers
      * @return void
      */
     public function testGetOneEspressoSuccessfully(){
@@ -313,6 +397,65 @@ class EspressoMachineControllerTest extends TestCase
         ];
         $espressomachine = EspressoMachine::factory()->create($data);
         $this->json('get',route('espresso-machine.make-one',['modelEspressoMachine' => $espressomachine->id]))
+            ->assertJson([
+                'error' => 'No Beans. Please fill the machine',
+            ])
+            ->assertHeader('Content-Type','application/json')
+            ->assertStatus(400);
+    }
+
+    /**
+     * Get double espresso from a machine with filled containers
+     * @return void
+     */
+    public function testGetDoubleEspressoSuccessfully(){
+        $data = [
+            'water_container_level'=> 10,
+            'water_container_capacity'=> 10,
+            'beans_container_level' => 10,
+            'beans_container_capacity' => 10,
+        ];
+
+        $espressomachine = EspressoMachine::factory()->create($data);
+        $this->json('get',route('espresso-machine.make-double',['modelEspressoMachine' => $espressomachine->id]))
+            ->assertHeader('Content-Type','application/json')
+            ->assertStatus(200);
+    }
+
+    /**
+     * Get double espresso from a machine with water container empty
+     * @return void
+     */
+    public function testGetDoubleEspressoUnsuccessfullyNoWater(){
+        $data = [
+            'water_container_level'=> 0,
+            'water_container_capacity'=> 10,
+            'beans_container_level' => 10,
+            'beans_container_capacity' => 10,
+        ];
+        $espressomachine = EspressoMachine::factory()->create($data);
+
+        $this->json('get',route('espresso-machine.make-double',['modelEspressoMachine' => $espressomachine->id]))
+            ->assertJson([
+                'error' => 'No Water. Please fill the machine',
+            ])
+            ->assertHeader('Content-Type','application/json')
+            ->assertStatus(400);
+    }
+
+    /**
+     * Get double espresso from a machine with beans container empty
+     * @return void
+     */
+    public function testGetDoubleEspressoUnsuccessfullyNoBeans(){
+        $data = [
+            'water_container_level'=> 10,
+            'water_container_capacity'=> 10,
+            'beans_container_level' => 0,
+            'beans_container_capacity' => 10,
+        ];
+        $espressomachine = EspressoMachine::factory()->create($data);
+        $this->json('get',route('espresso-machine.make-double',['modelEspressoMachine' => $espressomachine->id]))
             ->assertJson([
                 'error' => 'No Beans. Please fill the machine',
             ])
